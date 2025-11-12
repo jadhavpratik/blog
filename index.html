@@ -1,63 +1,52 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ताज्या बातम्या</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
       font-family: 'Noto Sans Marathi', sans-serif;
       margin: 0;
       background-color: #f0f2f5;
       color: #333;
-      overflow-x: hidden;
     }
-
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 10px;
     }
-
-    .main-content { padding: 20px 0; }
-
     .section-title {
       font-size: 24px;
       font-weight: 700;
       color: #333;
-      margin-bottom: 15px;
+      margin: 15px 0;
       border-bottom: 3px solid #1a73e8;
-      padding-bottom: 5px;
       display: inline-block;
+      padding-bottom: 5px;
     }
-
     .news-article {
       background-color: #fff;
       border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
       overflow: hidden;
     }
-
     .news-image {
       position: relative;
       width: 100%;
-      height: 230px;
+      height: auto;
       overflow: hidden;
-      cursor: pointer;
     }
-
     .news-image img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
       transition: transform 0.3s ease;
     }
-
-    .news-image:hover img { transform: scale(1.05); }
-
     .image-overlay {
       position: absolute;
       bottom: 0;
@@ -66,26 +55,22 @@
       background-color: rgba(0, 0, 0, 0.6);
       color: #fff;
       padding: 10px;
-      font-size: 18px;
       font-weight: 700;
+      font-size: 18px;
     }
-
     .article-headline {
       font-size: 20px;
       font-weight: 700;
       color: #333;
       padding: 15px;
-      margin-top: 0;
-      line-height: 1.4;
+      margin: 0;
     }
-
     .article-content {
-      padding: 0 15px 10px;
+      padding: 0 15px 15px;
       color: #555;
       font-size: 15px;
       line-height: 1.6;
     }
-
     .article-meta {
       padding: 0 15px 15px;
       font-size: 13px;
@@ -93,9 +78,20 @@
       display: flex;
       align-items: center;
     }
-
-    .article-meta .separator { margin: 0 5px; color: #ccc; }
-
+    .article-meta .separator {
+      margin: 0 5px;
+      color: #ccc;
+    }
+    .social-share {
+      padding: 0 15px 15px;
+    }
+    .social-share a {
+      margin-right: 10px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #1a73e8;
+    }
+    .social-share a:hover { color: #0d47a1; }
     .admin-update-btn {
       position: fixed;
       top: 15px;
@@ -107,95 +103,46 @@
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 14px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       z-index: 1000;
     }
-
     .admin-update-btn:hover { background-color: #d32f2f; }
-
-    .share-buttons {
-      padding: 0 15px 15px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .share-buttons a {
-      font-size: 22px;
-      color: #555;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .share-buttons a:hover { color: #1a73e8; }
-
     .delete-btn {
       background-color: #f44336;
       color: #fff;
       border: none;
-      border-radius: 5px;
-      padding: 8px 12px;
+      border-radius: 4px;
+      padding: 6px 10px;
       cursor: pointer;
-      margin: 10px 15px;
-      font-size: 14px;
+      margin: 0 0 10px 15px;
     }
-
     .delete-btn:hover { background-color: #d32f2f; }
-
-    /* ---------- Fullscreen Viewer ---------- */
+    /* Image viewer (zoom full view) */
     .image-viewer {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.95);
+      background: rgba(0,0,0,0.9);
       justify-content: center;
       align-items: center;
       z-index: 2000;
-      overflow: hidden;
     }
-
-    .viewer-content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      touch-action: none;
+    .image-viewer img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
     }
-
-    #viewerImg {
-      max-width: 100%;
-      max-height: 100%;
-      transition: transform 0.2s ease;
-      transform-origin: center center;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      font-size: 30px;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 2100;
-    }
-
-    @media (max-width: 600px) {
-      .news-image { height: 200px; }
+    @media (max-width: 768px) {
       .article-headline { font-size: 18px; }
-      .article-content { font-size: 14px; }
+      .section-title { font-size: 22px; }
+      .image-overlay { font-size: 16px; }
     }
   </style>
 </head>
 <body>
-  <button class="admin-update-btn" onclick="goToLogin()">(Admin) Update</button>
+
+  <button class="admin-update-btn" onclick="goToLogin()">(Admin) Update Content</button>
 
   <main class="main-content">
     <div class="container">
@@ -204,12 +151,9 @@
     </div>
   </main>
 
-  <!-- Fullscreen Image Viewer -->
-  <div class="image-viewer" id="imageViewer">
-    <button class="close-btn" onclick="closeViewer()">&times;</button>
-    <div class="viewer-content">
-      <img id="viewerImg" src="" alt="Full View">
-    </div>
+  <!-- Full Image Viewer -->
+  <div class="image-viewer" id="imageViewer" onclick="closeViewer()">
+    <img id="viewerImage" src="">
   </div>
 
   <script>
@@ -217,14 +161,15 @@
       window.location.href = "login.html";
     }
 
+    // Load news
     function loadNews() {
       const newsContainer = document.getElementById('latest-news');
       const allNews = JSON.parse(localStorage.getItem('newsList')) || [];
-      const isAdmin = sessionStorage.getItem("isAdmin") === "true";
-      newsContainer.innerHTML = '';
+      const adminLogged = localStorage.getItem('isAdmin') === 'true';
 
+      newsContainer.innerHTML = '';
       if (allNews.length === 0) {
-        newsContainer.innerHTML = '<p>No news added yet.</p>';
+        newsContainer.innerHTML = '<p>📰 अजून कोणतीही बातमी जोडलेली नाही.</p>';
         return;
       }
 
@@ -232,87 +177,46 @@
         const article = document.createElement('div');
         article.classList.add('news-article');
         article.innerHTML = `
-          <div class="news-image" onclick="openViewer('${news.photo}')">
-            <img src="${news.photo}" alt="News Photo">
+          <div class="news-image">
+            <img src="${news.photo}" alt="News Photo" onerror="this.src='https://via.placeholder.com/700x400?text=No+Image'" onclick="viewImage('${news.photo}')">
             <div class="image-overlay">${news.overlay || 'ताज्या घडामोडी'}</div>
           </div>
+          ${adminLogged ? `<button class="delete-btn" onclick="deleteNews(${index})">Delete</button>` : ''}
           <h2 class="article-headline">${news.headline}</h2>
           <div class="article-content">${news.content}</div>
+          <div class="social-share">
+            <a href="https://www.youtube.com/share?url=${encodeURIComponent(window.location.href)}" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/?url=${encodeURIComponent(window.location.href)}" target="_blank"><i class="fab fa-instagram"></i></a>
+          </div>
           <div class="article-meta">
             <span class="author">Admin</span>
             <span class="separator">·</span>
             <span class="time">${news.time}</span>
           </div>
-          <div class="share-buttons">
-            <a href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(news.headline)}" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}" target="_blank"><i class="fab fa-facebook"></i></a>
-          </div>
         `;
-
-        if (isAdmin) {
-          const delBtn = document.createElement('button');
-          delBtn.className = 'delete-btn';
-          delBtn.innerText = 'Delete Post';
-          delBtn.onclick = () => deletePost(index);
-          article.appendChild(delBtn);
-        }
-
         newsContainer.appendChild(article);
       });
     }
 
-    function deletePost(index) {
-      if (!confirm("Are you sure you want to delete this post?")) return;
-      const allNews = JSON.parse(localStorage.getItem('newsList')) || [];
-      allNews.splice(index, 1);
-      localStorage.setItem('newsList', JSON.stringify(allNews));
-      loadNews();
-    }
-
-    // --- Fullscreen Viewer Logic ---
-    const viewer = document.getElementById("imageViewer");
-    const viewerImg = document.getElementById("viewerImg");
-    let scale = 1, startDistance = 0;
-
-    function openViewer(src) {
-      viewerImg.src = src;
-      viewer.style.display = "flex";
-      document.body.style.overflow = "hidden";
-      scale = 1;
-      viewerImg.style.transform = "scale(1)";
+    function viewImage(src) {
+      const viewer = document.getElementById('imageViewer');
+      const img = document.getElementById('viewerImage');
+      img.src = src;
+      viewer.style.display = 'flex';
     }
 
     function closeViewer() {
-      viewer.style.display = "none";
-      document.body.style.overflow = "auto";
+      document.getElementById('imageViewer').style.display = 'none';
     }
 
-    // Pinch Zoom (Mobile)
-    viewerImg.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        const dx = e.touches[0].pageX - e.touches[1].pageX;
-        const dy = e.touches[0].pageY - e.touches[1].pageY;
-        startDistance = Math.sqrt(dx*dx + dy*dy);
+    function deleteNews(index) {
+      if (confirm("Delete this news?")) {
+        let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+        newsList.splice(index, 1);
+        localStorage.setItem('newsList', JSON.stringify(newsList));
+        loadNews();
       }
-    }, { passive: false });
-
-    viewerImg.addEventListener('touchmove', (e) => {
-      if (e.touches.length === 2) {
-        e.preventDefault();
-        const dx = e.touches[0].pageX - e.touches[1].pageX;
-        const dy = e.touches[0].pageY - e.touches[1].pageY;
-        const distance = Math.sqrt(dx*dx + dy*dy);
-        const newScale = (distance / startDistance) * scale;
-        viewerImg.style.transform = `scale(${Math.min(Math.max(newScale, 1), 4)})`;
-      }
-    }, { passive: false });
-
-    viewerImg.addEventListener('touchend', () => {
-      scale = parseFloat(viewerImg.style.transform.replace('scale(', '').replace(')', '')) || 1;
-    });
+    }
 
     window.onload = loadNews;
   </script>
