@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Marathi:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Noto Sans Marathi', sans-serif;
+      background-color: #fafafa;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 { color: #1a73e8; font-size: 24px; }
+
+    .form-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+      max-width: 500px;
+      margin: 20px auto;
+      text-align: left;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover { background-color: #155ab6; }
+
+    .logout-btn {
+      background-color: #f44336;
+      margin-top: 10px;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      width: fit-content;
+      margin: 20px auto 0;
+    }
+
+    @media (max-width: 600px) {
+      .form-box { padding: 15px; }
+      h1 { font-size: 20px; }
+      input, textarea { font-size: 14px; }
+      button { font-size: 15px; padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome, Admin</h1>
+  <p>Add New Headline and News Content Below:</p>
+
+  <div class="form-box">
+    <label for="headline">Headline</label>
+    <input type="text" id="headline" placeholder="Enter headline">
+
+    <label for="content">Content</label>
+    <textarea id="content" rows="5" placeholder="Enter news content"></textarea>
+
+    <label for="photo">Photo URL</label>
+    <input type="text" id="photo" placeholder="Enter image link (e.g. https://...)">
+
+    <button onclick="addNews()">Add News</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <a href="index.html">← Back to Home</a>
+
+  <script>
+    if (sessionStorage.getItem("isAdmin") !== "true") {
+      window.location.href = "login.html";
+    }
+
+    function addNews() {
+      const headline = document.getElementById('headline').value.trim();
+      const content = document.getElementById('content').value.trim();
+      const photo = document.getElementById('photo').value.trim() || "https://via.placeholder.com/700x400?text=No+Image";
+
+      if (!headline || !content) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      const newNews = {
+        headline,
+        content,
+        photo,
+        overlay: "New Update",
+        time: new Date().toLocaleString()
+      };
+
+      let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+      newsList.unshift(newNews);
+      localStorage.setItem('newsList', JSON.stringify(newsList));
+
+      alert("News added successfully!");
+      window.location.href = "index.html";
+    }
+
+    function logout() {
+      sessionStorage.removeItem("isAdmin");
+      alert("You are logged out!");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
